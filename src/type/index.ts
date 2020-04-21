@@ -60,11 +60,17 @@ export interface AxiosError extends Error {
     isAxiosError: boolean
 }
 
-export interface AxiosInterceptorManager {
-    use(): number
+export interface AxiosInterceptorManager<T> {
+    use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+
+    eject(id: number): void
+}
+
+export interface ResolvedFn<T> {
+    (val: T): T | Promise<T>
 }
 
 
-export interface RejectFn {
+export interface RejectedFn {
     (error: any): any
 }
