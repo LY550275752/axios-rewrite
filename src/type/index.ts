@@ -49,7 +49,7 @@ export interface AxiosResponse< T = any> {
     request: any
 }
 
-export interface AxiosPromise<T> extends Promise<AxiosResponse<T>> {
+export interface AxiosPromise<T = any> extends Promise<AxiosResponse<T>> {
 }
 
 export interface AxiosError extends Error {
@@ -66,7 +66,7 @@ export interface AxiosInterceptorManager<T> {
     eject(id: number): void
 }
 
-export interface ResolvedFn<T> {
+export interface ResolvedFn<T=any> {
     (val: T): T | Promise<T>
 }
 
