@@ -74,3 +74,8 @@ export interface ResolvedFn<T=any> {
 export interface RejectedFn {
     (error: any): any
 }
+
+export interface PromiseChain {
+    resolved: ResolvedFn | ((config: AxiosRequestConfig) => AxiosPromise)
+    rejected?: RejectedFn
+}
