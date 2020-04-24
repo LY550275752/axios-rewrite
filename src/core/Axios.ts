@@ -49,7 +49,7 @@ export default class Axios {
             promise = promise.then(resolved, rejected);
         }
 
-        return dispatchRequest(config);
+        return promise;
     }
     
     get(url: string, config?: AxiosRequestConfig): AxiosPromise {
