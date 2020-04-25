@@ -10,4 +10,18 @@ const defaults: AxiosRequestConfig = {
     }
 }
 
-const methodsNoData = ['delete', 'get', 'head', 'options']
+const methodsNoData = ['delete', 'get', 'head', 'options'];
+
+const methodsWithData = ['post', 'put', 'patch'];
+
+methodsNoData.forEach(method => {
+    defaults.headers[method] = {}
+})
+
+methodsWithData.forEach(method => {
+    defaults.headers[method] = {
+        'Content-type': 'application/x-www-form-urlencoded'
+    }
+})
+
+export default defaults;
