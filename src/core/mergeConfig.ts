@@ -1,3 +1,5 @@
+const strat = Object.create(null);
+
 function defaultStrat(val1: any, val2: any): any {
     return typeof val2 !== undefined ? val2 : val1;
 }
@@ -8,3 +10,9 @@ function formValStrat(val1: any, val2: any): any {
         return val2;
     }
 }
+
+const stratKeysFormVal2 = ['url', 'param', 'data'];
+
+stratKeysFormVal2.forEach(key => {
+    strat[key] = formValStrat;
+})
