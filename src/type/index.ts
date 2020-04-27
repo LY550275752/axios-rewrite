@@ -38,6 +38,8 @@ export interface AxiosRequestConfig {
     headers?: any,
     responseType?: XMLHttpRequestResponseType  // "" | "arraybuffer" | "blob" | "document" | "json" | "text"
     timeout?: number,
+    transformRequest?: AxiosTransformer | AxiosTransformer[],
+    transformResponse?: AxiosTransformer | AxiosTransformer[],
     [propName: string]: any
 }
 
@@ -79,4 +81,8 @@ export interface RejectedFn {
 export interface PromiseChain {
     resolved: ResolvedFn | ((config: AxiosRequestConfig) => AxiosPromise)
     rejected?: RejectedFn
+}
+
+export interface AxiosTransformer {
+    (data: any, headers?: any): any
 }
