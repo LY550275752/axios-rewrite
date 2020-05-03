@@ -1,4 +1,30 @@
 import { isDate, isObject } from './util';
+import { request } from 'http';
+
+// url中协议与域
+interface URLOrigin {
+    protocol: string,
+    host: string
+}
+
+// 利用a标签DOM获取protocol, host
+const urlParsingNode = document.createElement('a');
+const currentOrigin = resolveUrl(window.location.href);
+
+export function resolveUrl(href: string): URLOrigin {
+    urlParsingNode.setAttribute('href', href);
+    const { protocol, host } = urlParsingNode;
+    return {
+        protocol,
+        host
+    }
+}
+
+export function isURLSameOrigin(requestUrl: string): boolean {
+    const requestOrigin = resolveUrl(requestUrl);
+    return requestOrigin.protocol === currentOrigin.protocol
+        && requestOrigin.host === currentOrigin.host
+}
 
 function encode(val: string): string {
     // 替换一些特殊字符

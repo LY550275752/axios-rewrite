@@ -48,6 +48,9 @@ export interface AxiosRequestConfig {
     transformRequest?: AxiosTransformer | AxiosTransformer[],
     transformResponse?: AxiosTransformer | AxiosTransformer[],
     cancelToken?: CancelToken,
+    withCredential?: boolean,                       // 跨域是否携带请求域下cookie
+    xsrfCookieName?: string,                        // 获取cookie的key
+    xsrfHeaderName?: string,                        // header中cookie的Name
     [propName: string]: any
 }
 
