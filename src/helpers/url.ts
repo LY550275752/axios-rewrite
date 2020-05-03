@@ -11,6 +11,7 @@ interface URLOrigin {
 const urlParsingNode = document.createElement('a');
 const currentOrigin = resolveUrl(window.location.href);
 
+// 获取href的protocol, host
 export function resolveUrl(href: string): URLOrigin {
     urlParsingNode.setAttribute('href', href);
     const { protocol, host } = urlParsingNode;
@@ -20,6 +21,7 @@ export function resolveUrl(href: string): URLOrigin {
     }
 }
 
+// 请求域与当前域是否一致
 export function isURLSameOrigin(requestUrl: string): boolean {
     const requestOrigin = resolveUrl(requestUrl);
     return requestOrigin.protocol === currentOrigin.protocol
