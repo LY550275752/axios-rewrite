@@ -53,6 +53,7 @@ export interface AxiosRequestConfig {
     xsrfHeaderName?: string,                        // header中cookie的Name
     onDownloadProgress?: (e: ProgressEvent) => void,    // 下载进度监听
     onUploadProgress?: (e: ProgressEvent) => void,      // 上传进度监听
+    auth?: AxiosBasicCredentials,                       // HTTP协议用户代理身份验证
     [propName: string]: any
 }
 
@@ -135,4 +136,10 @@ export interface Cancel {
 
 export interface CancelStatic {
     new(message?: string): Cancel
+}
+
+
+export interface AxiosBasicCredentials {
+    username: string,
+    password: string
 }
