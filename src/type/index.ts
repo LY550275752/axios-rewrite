@@ -51,6 +51,8 @@ export interface AxiosRequestConfig {
     withCredential?: boolean,                       // 跨域是否携带请求域下cookie
     xsrfCookieName?: string,                        // 获取cookie的key
     xsrfHeaderName?: string,                        // header中cookie的Name
+    onDownloadProgress?: (e: ProgressEvent) => void,    // 下载进度监听
+    onUploadProgress?: (e: ProgressEvent) => void,      // 上传进度监听
     [propName: string]: any
 }
 
