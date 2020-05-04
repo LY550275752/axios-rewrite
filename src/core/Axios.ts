@@ -1,6 +1,6 @@
 
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse, Method, PromiseChain } from '../type';
-import dispatchRequest from './dispatchRequest';
+import dispatchRequest, { transformUrl } from './dispatchRequest';
 import InterceptorManagers from './interceptorManagers';
 import mergeConfig from './mergeConfig';
 import defaults from '../defaults';
@@ -104,5 +104,10 @@ export default class Axios {
                 data
             })
         )
+    }
+
+    gerUri(config: AxiosRequestConfig): string {
+        config = mergeConfig(defaults, config);
+        return transformUrl(config);
     }
 }
