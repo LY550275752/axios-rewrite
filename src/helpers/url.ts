@@ -1,5 +1,4 @@
-import { isDate, isObject } from './util';
-import { request } from 'http';
+import { isDate, isObject, isURLSearchParams } from './util';
 
 // url中协议与域
 interface URLOrigin {
@@ -40,50 +39,58 @@ function encode(val: string): string {
         .replace(/%5D/gi, ']')
 }
 
-export function buildURL(url: string, params?: any): string {
+export function buildURL(url: string, params?: any, paramsSerializer?: (params: any) => string): string {
     if(!params) {
         return url;
     }
 
-    const parts: string[] = [];
     let values: string[];
+    let serializedParams;
 
-    Object.keys(params).forEach((key) => {
-        let val = params[key];
+    if (paramsSerializer) {
+        serializedParams = paramsSerializer(params);
+    } else if (isURLSearchParams(params)) {
+        serializedParams = params.toString();
+    } else {
+        const parts: string[] = [];
 
-        // 没有值则不处理到url中
-        if (val === null || val === undefined) {
-            return;
-        }
-
-        // 将值处理为数组
-        if (Array.isArray(val)) {
-            values = val;
-            key += '[]'
-        } else {
-            values = [val]
-        }
-        values.forEach((val) => {
-            if (isDate(val)) {
-                val = val.toISOString();
-            } else if (isObject(val)) {
-                val = JSON.stringify(val);
+        Object.keys(params).forEach((key) => {
+            let val = params[key];
+    
+            // 没有值则不处理到url中
+            if (val === null || val === undefined) {
+                return;
             }
-
-            parts.push(`${encode(key)}=${encode(val)}`);
+    
+            // 将值处理为数组
+            if (Array.isArray(val)) {
+                values = val;
+                key += '[]'
+            } else {
+                values = [val]
+            }
+            values.forEach((val) => {
+                if (isDate(val)) {
+                    val = val.toISOString();
+                } else if (isObject(val)) {
+                    val = JSON.stringify(val);
+                }
+    
+                parts.push(`${encode(key)}=${encode(val)}`);
+            });
         });
 
-        let serializedParams = parts.join('&');
+        serializedParams = parts.join('&');
+    }
 
-        // 拼接生成新url
-        if (serializedParams) {
-            let markIndex = serializedParams.indexOf('#');
-            if (markIndex !== -1) {
-                url = url.slice(0, markIndex);
-            }
-            url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+    // 拼接生成新url
+    if (serializedParams) {
+        let markIndex = serializedParams.indexOf('#');
+        if (markIndex !== -1) {
+            url = url.slice(0, markIndex);
         }
-    })
+        url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+    }
 
     return url;
 }
